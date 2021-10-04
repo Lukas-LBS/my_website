@@ -1,6 +1,6 @@
 baseURL: http://example.org/
 languageCode: en-us
-title: Forty
+title: Portfolio Website - Lukas-LBS
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -10,18 +10,18 @@ params:
     subtitle: |-
       A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
       AND RELEASED UNDER THE CREATIVE COMMONS.
-    title: Hi, my name is Forty
-  blog: {}
+    title: Portfolio Website - Lukas-LBS
+  blog: {Lukas Kugler}
   contact:
     address:
-      - city: City, ST 00000
-        country: Country
-        street: Street
+      - city: London, NW1 4SA , ST 00000
+        country: United Kingdom
+        street: Regent's Park
         title: Address
     buttonClear: Clear
     buttonSend: Send message
     email:
-      - email: example@domain.com
+      - email: lkugler.mfa2022@london.edu
         title: Email
     enable: yes
     phone:
