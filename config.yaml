@@ -1,4 +1,4 @@
-baseURL: http://example.org/
+baseURL: https://lukas-lbs.netlify.app/
 languageCode: en-us
 title: Portfolio Website - Lukas-LBS
 theme: forty
@@ -14,7 +14,7 @@ params:
   blog: {Lukas Kugler}
   contact:
     address:
-      - city: London, NW1 4SA , ST 00000
+      - city: London, NW1 4SA
         country: United Kingdom
         street: Regent's Park
         title: Address
