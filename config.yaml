@@ -22,10 +22,7 @@ params:
     email:
       - email: lkugler.mfa2022@london.edu
         title: Email
-    enable: no
-      phone:
-      - phone: (000) 000-0000 x1234
-        title: Phone
+    enable: yes
   custom_css: []
   custom_css: []
   custom_js: []
