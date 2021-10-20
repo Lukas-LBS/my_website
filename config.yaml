@@ -6,15 +6,15 @@ googleAnalytics: ''
 disqusShortname: ''
 params:
   banner:
-    buttonText: Show content
+    buttonText: View contents
     subtitle: |-
-    title: Hi, my name is Lukas
+    title: Portfolio - Lukas Kugler
   blog: {Lukas Kugler}
   contact:
     address:
-      - city: London, NW1 4SA
+      - city: London
         country: United Kingdom
-        street: Regent's Park
+        street: Regents Park
         title: Address
     buttonClear: Clear
     buttonSend: Send message
@@ -22,6 +22,9 @@ params:
       - email: lkugler.mfa2022@london.edu
         title: Email
     enable: yes
+    phone:
+      - phone: Please enquire for phone number
+        title: Phone
   custom_css: []
   custom_css: []
   custom_js: []
