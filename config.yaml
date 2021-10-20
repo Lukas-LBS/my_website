@@ -23,6 +23,10 @@ params:
       - email: lkugler.mfa2022@london.edu
         title: Email
     enable: yes
+        phone:
+      - phone: (000) 000-0000 x1234
+        title: Phone
+  custom_css: []
   custom_css: []
   custom_js: []
   description: Your description
@@ -31,12 +35,9 @@ params:
     text: Please visit [this page](/)
   favicon: favicon.ico
   footer:
-    copyright: Company Name
+    copyright: Lukas Kugler
     enable: yes
     quicklinks:
-      - alt: HTML5 UP
-        text: 'Design: '
-        url: https://www.html5up.net
     social:
       - icon: fa-instagram
         label: Instagram
@@ -48,14 +49,11 @@ params:
         label: LinkedIn
         url: https://www.linkedin.com/in/lkugler-lbs/
   image: ''
-  name: Your name
+  name: Lukas Kugler
   navigation:
     button1:
       - name: Get Started
         url: blogs
-    button2:
-      - name: Log In
-        url: '#'
     links:
       - name: Home
         url: '#'
