@@ -1,6 +1,6 @@
 baseURL: https://lukas-lbs.netlify.app/
 languageCode: en-us
-title: Hi, my name is Lukas
+title: Portfolio - Lukas Kugler
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -8,7 +8,6 @@ params:
   banner:
     buttonText: Show content
     subtitle: |-
-      A PORFOLIO FOR DATA ANALYTICS IN FINANCE
     title: Hi, my name is Lukas
   blog: {Lukas Kugler}
   contact:
