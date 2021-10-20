@@ -49,7 +49,7 @@ params:
         url: https://github.com/Lukas-LBS
       - icon: fa-linkedin
         label: LinkedIn
-        url: https://www.linkedin.com
+        url: https://www.linkedin.com/in/lkugler-lbs/
   image: ''
   name: Your name
   navigation:
@@ -69,8 +69,8 @@ params:
       - name: Elements
         url: elements.html
     menu: Menu
-    subtitle: By HTML5 Up
-    title: Forty
+    subtitle:
+    title: Lukas Kugler
   tiles:
     enable: yes
     showcase:
