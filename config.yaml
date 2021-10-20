@@ -1,6 +1,6 @@
 baseURL: https://lukas-lbs.netlify.app/
 languageCode: en-us
-title: hmmmmmmmmm
+title: Hi, my name is Lukas
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -8,9 +8,8 @@ params:
   banner:
     buttonText: Show content
     subtitle: |-
-      A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
-      AND RELEASED UNDER THE CREATIVE COMMONS.
-    title: hmmmmmmm
+      A PORFOLIO FOR DATA ANALYTICS IN FINANCE
+    title: Hi, my name is Lukas
   blog: {Lukas Kugler}
   contact:
     address:
