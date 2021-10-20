@@ -20,6 +20,7 @@ params:
     buttonClear: Clear
     buttonSend: Send message
     email:
+  enable: no
       - email: lkugler.mfa2022@london.edu
         title: Email
     enable: yes
