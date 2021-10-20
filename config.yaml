@@ -56,8 +56,8 @@ params:
     links:
       - name: Home
         url: '#'
-      - name: R-projects
-        url: blogs
+#      - name: R-projects
+#        url: blogs
       - name: About me
         url: blogs/aliquam
 #      - name: Elements
