@@ -67,7 +67,6 @@ Look at May and Jun and compare 2020 with the previous years. What's happening?
 In May and June, we see a flattening of the distribution curve. In the prior years for the months of May June, there is usually a relatively normal distribution of the graph, with a a bit of skew and some years where the distributions are bi- or tri-modal. In 2020, I believe we are seeing a widening of the distribution away from a concentrated mean amount of bike rentals. This is most likely because of the lockdown over the summer due to the pandemic. When lockdown restrictions were lifted, there would be high levels of bike rentals but going back into lockdown would cause these rentals to drop significantly, and hence "stretches" the distribution out as seen in the graph above. 
 
 ```{r tfl_absolute_monthly_change, echo=FALSE, out.width="100%"}
-knitr::include_graphics(here::here("images", "tfl_monthly.png"), error = FALSE)
 
 #create data.frame that contains the actual monthly average for each of the 6 years
 actual_data_bike <- bike %>% 

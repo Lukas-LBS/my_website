@@ -20,8 +20,9 @@ Hi, I am Lukas from Munich in Germany [`Munich in Germany`](https://www.google.c
 ### This blog
 
 This page is designed to showcase my groups a(R)twork. It was handselected and encompasses the following topics:
-* [`Investment Fundamentals`](https://lukas-lbs.netlify.app/blogs/movies/) - Showcases the relationship of movie likes, budgets, and their returns
-* sdf
-* sdf
-
+* [`Movies, cast facebook likes, budgets, and returns`](https://lukas-lbs.netlify.app/blogs/movies/) - Showcases the relationship of movies casts' facebook likes, the films budgets, and their returns
+* [`Climate Change`](https://lukas-lbs.netlify.app/blogs/climate/) - Examines how the climate has changed over recent years
+* [`Boris Bikes`](https://lukas-lbs.netlify.app/blogs/bike/) - Looks at how Boris Bikes are rented throughout the years
+* 
+* 
 
