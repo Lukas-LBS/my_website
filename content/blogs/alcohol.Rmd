@@ -1,18 +1,16 @@
 
 ---
-categories:
-- ""
-- ""
-date: "2017-10-31T22:42:51-05:00"
-description: Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna
-  sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa
-  sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem
-  consequat tincidunt. Vivamus et sagittis tempus.
-draft: false
-image: Picture1.png
-keywords: ""
-slug: ipsum
-title: ipsum
+title: "Project 1 Alcohol Consumption"
+subtitle: "Where do people drink the most alcohol"
+image: pic10.jpg
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
 ```{r, setup, echo=FALSE}
