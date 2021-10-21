@@ -20,4 +20,11 @@ title: About me
 
 Hi, I am Lukas from Munich in Germany [`Munich in Germany`](https://www.google.com/maps/place/Munich,+Germany/data=!4m2!3m1!1s0x479e75f9a38c5fd9:0x10cb84a7db1987d?sa=X&ved=2ahUKEwjLrYml3tvzAhX6A2MBHaNpBgcQ8gF6BAhHEAE). I did my undergraduate in Economics and am currently studying the MFA at [`London Business School`](https://www.london.edu).
 
-#### Work
+### This blog
+
+This page is designed to showcase my groups a(R)twork. It was handselected and encompasses the following topics:
+> psdf
+> sdf
+> sdf
+
+
