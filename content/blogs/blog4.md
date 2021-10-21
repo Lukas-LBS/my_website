@@ -3,10 +3,7 @@ categories:
 - ""
 - ""
 date: "2017-10-31T22:42:51-05:00"
-description: Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna
-  sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa
-  sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem
-  consequat tincidunt. Vivamus et sagittis tempus.
+description: ""
 draft: false
 image: Picture1.png
 keywords: ""
@@ -23,8 +20,8 @@ Hi, I am Lukas from Munich in Germany [`Munich in Germany`](https://www.google.c
 ### This blog
 
 This page is designed to showcase my groups a(R)twork. It was handselected and encompasses the following topics:
-> psdf
-> sdf
-> sdf
+* [`Investment Fundamentals`](https://lukas-lbs.netlify.app/blogs/if) - Mashup between my two favorite courses: Data Analytics and Investment Fundamentals
+* sdf
+* sdf
 
 
