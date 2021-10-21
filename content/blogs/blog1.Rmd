@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small")   # slightly smaller font for code
 options(digits = 3)
-
 # default figure size
 knitr::opts_chunk$set(
   fig.width=6.75, 
@@ -39,20 +38,6 @@ library(janitor)
 library(vroom)
 library(tidyquant)
 library(rvest) # to scrape wikipedia page
-```
-
-# Where Do People Drink The Most Beer, Wine And Spirits?
-
-Back in 2014, [fivethiryeight.com](https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/) published an article on alchohol consumption in different countries. 
-
-```{r, load_alcohol_data}
-library(fivethirtyeight)
-data(drinks)
-
-
-# or download directly
-# alcohol_direct <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv")
-
 ```
 
 ```{r, get_cpi_10Year_yield}
