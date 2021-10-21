@@ -7,7 +7,7 @@ description: ""
 draft: false
 image: pic10.jpg
 keywords: ""
-slug: p1
+slug: sed
 title: Project 1: Investment Fundamentals and Data Analys
 ---
 
