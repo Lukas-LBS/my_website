@@ -10,7 +10,7 @@ image: denise-jans-tV80374iytg-unsplash.jpg
 
 keywords: ""
 slug: movies
-title: Relationship of movie facebook likes, budgets, and their returns
+title: Movies, cast facebook likes, budgets, and returns
 ---
   
 
