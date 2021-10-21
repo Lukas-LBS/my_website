@@ -71,7 +71,7 @@ params:
       - image: Picture1.png
         subtitle: Short introduction about this blog and its owner
         title: About me
-        url: blogs/aliquam
+        url: blogs/aboutme
       - image: pic02.jpg
         subtitle: Feugiat Amet Tempus
         title: Tempus
@@ -96,5 +96,5 @@ params:
     buttonText: R-projects
     enable: yes
     subtitle:
-    title: Massa libero
+    title: Find out more about my a(R)twork
     url: blogs
