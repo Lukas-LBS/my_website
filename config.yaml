@@ -79,9 +79,9 @@ params:
         subtitle: Lorem Etiam Nullam
         title: Magna
         url: blogs/magna
-      - image: pic10.jpg
+      - image: denise-jans-tV80374iytg-unsplash.jpg
         subtitle: Nisl Sed Aliquam
-        title: Investment Fundamentals and Data Analytics
+        title: Relationship of movie likes, budgets, and their returns
         url: blogs/movies
 #      - image: pic05.jpg
 #        subtitle: Ipsum Dolor Sit Amet
