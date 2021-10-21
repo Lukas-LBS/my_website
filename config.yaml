@@ -87,9 +87,9 @@ params:
         subtitle: How does gender and experience play into pay?
         title: Gender pay analysis
         url: blogs/gender
-      - image: pic06.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Etiam
+      - image: janilson-furtado-unsplash.jpg
+        subtitle: Youth risk behavior
+        title: How do young people take risks?
         url: blogs/ipsum
   two:
     buttonText: R-projects
