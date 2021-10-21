@@ -26,7 +26,6 @@ params:
       - phone: Please enquire for phone number
         title: Phone
   custom_css: []
-  custom_css: []
   custom_js: []
   description: Your description
   error404:
