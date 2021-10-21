@@ -1,0 +1,57 @@
+---
+categories:  
+- ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
+- ""
+date: "2021-09-30"
+description: Risk-Return of DJIA stocks # the title that will show up once someone gets to this page
+draft: false
+image: denise-jans-tV80374iytg-unsplash.jpg
+
+keywords: ""
+slug: movies
+title: Relationship of movie likes, budgets, and their returns
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="movies" class="section level1">
+<h1>Movies</h1>
+<div id="relationship-between-the-number-of-facebook-likes-a-movie-received-and-its-revenues" class="section level2">
+<h2>Relationship between the number of Facebook likes a movie received and its revenues</h2>
+<p>To examine this relationship, we first need to load the data through the command shown below:</p>
+<pre class="r"><code>movies &lt;- read_csv(here::here(&quot;data&quot;, &quot;movies.csv&quot;))
+glimpse(movies)</code></pre>
+<pre><code>## Rows: 2,961
+## Columns: 11
+## $ title               &lt;chr&gt; &quot;Avatar&quot;, &quot;Titanic&quot;, &quot;Jurassic World&quot;, &quot;The Avenge…
+## $ genre               &lt;chr&gt; &quot;Action&quot;, &quot;Drama&quot;, &quot;Action&quot;, &quot;Action&quot;, &quot;Action&quot;, &quot;…
+## $ director            &lt;chr&gt; &quot;James Cameron&quot;, &quot;James Cameron&quot;, &quot;Colin Trevorrow…
+## $ year                &lt;dbl&gt; 2009, 1997, 2015, 2012, 2008, 1999, 1977, 2015, 20…
+## $ duration            &lt;dbl&gt; 178, 194, 124, 173, 152, 136, 125, 141, 164, 93, 1…
+## $ gross               &lt;dbl&gt; 7.61e+08, 6.59e+08, 6.52e+08, 6.23e+08, 5.33e+08, …
+## $ budget              &lt;dbl&gt; 2.37e+08, 2.00e+08, 1.50e+08, 2.20e+08, 1.85e+08, …
+## $ cast_facebook_likes &lt;dbl&gt; 4834, 45223, 8458, 87697, 57802, 37723, 13485, 920…
+## $ votes               &lt;dbl&gt; 886204, 793059, 418214, 995415, 1676169, 534658, 9…
+## $ reviews             &lt;dbl&gt; 3777, 2843, 1934, 2425, 5312, 3917, 1752, 1752, 35…
+## $ rating              &lt;dbl&gt; 7.9, 7.7, 7.0, 8.1, 9.0, 6.5, 8.7, 7.5, 8.5, 7.2, …</code></pre>
+<p>Following this, we produce a scatter plot to show the relationship in question:</p>
+<pre class="r"><code>#Create scatterplot
+ggplot(movies, aes(x=cast_facebook_likes, y=gross)) + #assign x- and y-axis variables 
+  geom_point() +
+  geom_smooth(method=&quot;lm&quot;) +
+  scale_y_log10()+
+  scale_x_log10() + #scale axis to make graph readable
+  labs(title = &quot;Gross Revenue of Movie vs Cast Facebook Likes&quot;,
+       x=&quot;Cast Facebook Likes&quot;,
+       y=&quot;Gross Revenue&quot;) </code></pre>
+<p><img src="/blogs/movies_files/figure-html/gross_on_fblikes-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#Test correlation of variables
+cor(x=movies$cast_facebook_likes, y=movies$gross)</code></pre>
+<pre><code>## [1] 0.213</code></pre>
+<div id="interpretation" class="section level3">
+<h3>Interpretation</h3>
+<p>The graphs above show the possible relationships between CPI and the 10 year Treasury yield. The graphs from the original source are all on the same scale and use different numbers on the axis, while our graphs utilize the same scale on both axis. This is allows us to better understand the relationships and trends occurring from the 1980s to the 2020s more clearly. For example, in the 1980s, the 10 year Treasury rate was much higher, and there was a corresponding higher CPI yearly change. Looking at the present day where the 10 year Treasury rate is extremely low, we can easily see the corresponding lower CPI yearly change through our graphs. In the 1980s, the spread of yearly CPI change was the greatest from 0.02 to 0.12. This is most likely due to the varying economic policies of presidents during the decade. Carter’s administration saw very high levels of inflation and when Reagan came into office, he worked to try and implement policy hat would unwind this. Volcker, as chairman of the Fed, worked with the rest of the board to reduce inflation from its peak of 13.5% to almost 3% by 1983.</p>
+</div>
+</div>
+</div>
