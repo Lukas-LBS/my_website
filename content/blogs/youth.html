@@ -8,16 +8,16 @@ draft: false
 image: janilson-furtado-unsplash.jpg
 keywords: ""
 slug: youth
-title: Youth risk behavior
+title: Youth activity and weight
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<div id="youth-risk-behavior-surveillance" class="section level1">
-<h1>Youth Risk Behavior Surveillance</h1>
-<div id="load-the-data" class="section level2">
-<h2>Load the data</h2>
+<div id="characteristics-of-students-and-their-propensity-to-participate-in-physical-activities" class="section level1">
+<h1>Characteristics of students and their propensity to participate in physical activities</h1>
+<div id="to-understand-this-relationship-we-first-need-to-load-the-data-with-te-following-code" class="section level3">
+<h3>To understand this relationship, we first need to load the data with te following code</h3>
 <pre class="r"><code>data(yrbss)
 glimpse(yrbss)</code></pre>
 <pre><code>## Rows: 13,583
@@ -259,11 +259,7 @@ glimpse(yrbss)</code></pre>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="exploratory-data-analysis" class="section level2">
-<h2>Exploratory Data Analysis</h2>
-<p>You will first start with analyzing the <code>weight</code> of participants in kilograms. Using visualization and summary statistics, describe the distribution of weights. How many observations are we missing weights from?</p>
-<p>Missing 1004 weights from our total observations.</p>
+<p>We first start with analyzing the <code>weight</code> of students in kilograms.</p>
 <pre class="r"><code>yrbss %&gt;%
   filter(!weight == &quot;NULL&quot;) %&gt;% 
   summary()</code></pre>
@@ -301,8 +297,8 @@ glimpse(yrbss)</code></pre>
 ##  NA&#39;s   :1044</code></pre>
 <pre class="r"><code>ggplot(data=yrbss,aes(x=weight))+geom_histogram()+labs(title = &quot;Distribution of Weights&quot;)</code></pre>
 <p><img src="/blogs/youth_files/figure-html/eda_on_weight-1.png" width="648" style="display: block; margin: auto;" /></p>
-<p>Next, consider the possible relationship between a high schooler’s weight and their physical activity. Plotting the data is a useful first step because it helps us quickly visualize trends, identify strong associations, and develop research questions.</p>
-<p>Let’s create a new variable in the dataframe <code>yrbss</code>, called <code>physical_3plus</code> , which will be <code>yes</code> if they are physically active for at least 3 days a week, and <code>no</code> otherwise. You may also want to calculate the number and % of those who are and are not active for more than 3 days. RUse the <code>count()</code> function and see if you get the same results as <code>group_by()... summarise()</code></p>
+<p>Next, we consider the possible relationship between a high schooler’s weight and their physical activity. To receive a quick overview, we plot the data.</p>
+<p>To do so we create a new variable <code>yrbss</code>, called <code>physical_3plus</code>, which will have the value <code>yes</code> if the student is physically active for at least 3 days a week, and <code>no</code> otherwise. We also calculate the number and proportion of students who are and are not active for more than 3 days:</p>
 <pre class="r"><code>yrbss &lt;- yrbss %&gt;%
   filter(!physically_active_7d == &quot;NULL&quot;) %&gt;%   
   mutate(physical_3plus = ifelse(physically_active_7d&gt;= 3,&quot;Yes&quot;, &quot;No&quot;)) 
@@ -326,7 +322,7 @@ percent= data2[1,2]/sum(data2$VALUES)
 percent</code></pre>
 <pre><code>##   VALUES
 ## 1  0.331</code></pre>
-<p>Can you provide a 95% confidence interval for the population proportion of high schools that are <em>NOT</em> active 3 or more days per week?</p>
+<p>To statistically examine the the population proportion of high schools that are <em>NOT</em> active 3 or more days per week, we create a 95% confidence interval:</p>
 <pre class="r"><code>  se_notactive &lt;- sqrt(percent*(1-percent)/sum(data2$VALUES))
   t_value &lt;- qt(0.95, sum(data2$VALUES)-1)
   Lower_range &lt;- percent-t_value*se_notactive
@@ -338,7 +334,8 @@ percent</code></pre>
 ## 
 ## $VALUES
 ## [1] 0.338</code></pre>
-<p>Make a boxplot of <code>physical_3plus</code> vs. <code>weight</code>. Is there a relationship between these two variables? What did you expect and why?</p>
+<p>We can see that almost a third of schools are not active 3 or more days per week!</p>
+<p>When we create a boxplot to see if individuals that are active 3 or more days per week correlates has to do with <code>weight</code>, we surprisingly see that this is not the case</p>
 <pre class="r"><code>ggplot(yrbss, aes(x=physical_3plus,y=weight)) +
   geom_boxplot()</code></pre>
 <p><img src="/blogs/youth_files/figure-html/boxplot-1.png" width="648" style="display: block; margin: auto;" /></p>
@@ -363,59 +360,5 @@ percent</code></pre>
 ## 2 Yes                   68.4      16.5  8906       1.65     0.175
 ## # … with 3 more variables: margin_of_error &lt;dbl&gt;, lower &lt;dbl&gt;, higher &lt;dbl&gt;</code></pre>
 <p>There is an observed difference of about 1.77kg (68.44 - 66.67), and we notice that the two confidence intervals do not overlap. It seems that the difference is at least 95% statistically significant. Let us also conduct a hypothesis test.</p>
-</div>
-<div id="hypothesis-test-with-formula" class="section level2">
-<h2>Hypothesis test with formula</h2>
-<p>Write the null and alternative hypotheses for testing whether mean weights are different for those who exercise at least times a week and those who don’t.</p>
-<pre class="r"><code>#No: The mean weights in &quot;No&quot; and &quot;Yes&quot; group in `physical_3plus` are the same
-#N1: The mean weights in &quot;No&quot; and &quot;Yes&quot; group in `physical_3plus` are different
-t.test(weight ~ physical_3plus, data = yrbss)</code></pre>
-<pre><code>## 
-##  Welch Two Sample t-test
-## 
-## data:  weight by physical_3plus
-## t = -5, df = 7479, p-value = 9e-08
-## alternative hypothesis: true difference in means between group No and group Yes is not equal to 0
-## 95 percent confidence interval:
-##  -2.42 -1.12
-## sample estimates:
-##  mean in group No mean in group Yes 
-##              66.7              68.4</code></pre>
-</div>
-<div id="hypothesis-test-with-infer" class="section level2">
-<h2>Hypothesis test with <code>infer</code></h2>
-<p>But first, we need to initialize the test, which we will save as <code>obs_diff</code>.</p>
-<pre class="r"><code>obs_diff &lt;- yrbss %&gt;%
-  specify(weight ~ physical_3plus) %&gt;%
-  calculate(stat = &quot;diff in means&quot;, order = c(&quot;Yes&quot;, &quot;No&quot;))</code></pre>
-<p>Notice how you can use the functions specify and calculate again like you did for calculating confidence intervals. Here, though, the statistic you are searching for is the difference in means, with the order being yes - no != 0.</p>
-<p>After you have initialized the test, you need to simulate the test on the null distribution, which we will save as null.</p>
-<pre class="r"><code>null_dist &lt;- yrbss %&gt;%
-  # specify variables
-  specify(weight ~ physical_3plus) %&gt;%
-  
-  # assume independence, i.e, there is no difference
-  hypothesize(null = &quot;independence&quot;) %&gt;%
-  
-  # generate 1000 reps, of type &quot;permute&quot;
-  generate(reps = 1000, type = &quot;permute&quot;) %&gt;%
-  
-  # calculate statistic of difference, namely &quot;diff in means&quot;
-  calculate(stat = &quot;diff in means&quot;, order = c(&quot;Yes&quot;, &quot;No&quot;))</code></pre>
-<p>We can visualize this null distribution with the following code:</p>
-<pre class="r"><code>ggplot(data = null_dist, aes(x = stat)) +
-  geom_histogram()</code></pre>
-<p><img src="/blogs/youth_files/figure-html/unnamed-chunk-4-1.png" width="648" style="display: block; margin: auto;" /></p>
-<p>Now that the test is initialized and the null distribution formed, we can visualise to see how many of these null permutations have a difference of at least <code>obs_stat</code> of 1.77?</p>
-<p>We can also calculate the p-value for your hypothesis test using the function <code>infer::get_p_value()</code>.</p>
-<pre class="r"><code>null_dist %&gt;% visualize() +
-  shade_p_value(obs_stat = obs_diff, direction = &quot;two-sided&quot;)</code></pre>
-<p><img src="/blogs/youth_files/figure-html/unnamed-chunk-5-1.png" width="648" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>null_dist %&gt;%
-  get_p_value(obs_stat = obs_diff, direction = &quot;two_sided&quot;)</code></pre>
-<pre><code>## # A tibble: 1 × 1
-##   p_value
-##     &lt;dbl&gt;
-## 1       0</code></pre>
 </div>
 </div>

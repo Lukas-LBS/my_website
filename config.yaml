@@ -88,8 +88,8 @@ params:
         title: Gender pay analysis
         url: blogs/gender
       - image: janilson-furtado-unsplash.jpg
-        subtitle: How do young people take risks?
-        title: Youth risk behavior
+        subtitle: How is a students weight related to excercise?
+        title: Youth activity and weight
         url: blogs/youth
   two:
     buttonText: R-projects

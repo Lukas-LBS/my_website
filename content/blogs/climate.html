@@ -17,6 +17,7 @@ title: Climate Change
 
 <div id="temperature-change" class="section level1">
 <h1>Temperature change</h1>
+<p>We want to explore data on climate change and if temperatures are actually rising. To do so we first need to load the following dataset and manipulate it so we can work on it:</p>
 <pre class="r"><code>weather &lt;- 
   read_csv(&quot;https://data.giss.nasa.gov/gistemp/tabledata_v4/NH.Ts+dSST.csv&quot;, 
            skip = 1, 
@@ -33,6 +34,7 @@ glimpse(tidyweather)</code></pre>
 ## $ Year  &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880…
 ## $ month &lt;chr&gt; &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;…
 ## $ delta &lt;dbl&gt; -0.35, -0.51, -0.23, -0.30, -0.06, -0.16, -0.18, -0.26, -0.23, -…</code></pre>
+<p>Following our data manipulation, we want to visualise how temperatures evolved:</p>
 <pre class="r"><code>#create new variable
 tidyweather &lt;- tidyweather %&gt;%
   mutate(date = ymd(paste(as.character(Year), month, &quot;1&quot;)),
@@ -48,10 +50,9 @@ ggplot(tidyweather, aes(x=date, y = delta))+
   )</code></pre>
 <p><img src="/blogs/climate_files/figure-html/scatter_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
 <p><img src="/blogs/climate_files/figure-html/facet_wrap-1.png" width="648" style="display: block; margin: auto;" /></p>
-<p>Is the effect of increasing temperature more pronounced in some months?</p>
 <p>In December-March, the data sets are a bit more spread out and in the more recent years there appears to be a more pronounced and steep upward trend in the temperature. However, this upward trend is seen in all the months to some extent. More critical to observe, is the increase over the years where it can be observed that the increase in temperature is beginning to take on an exponential upward curve - scary! In the the prior graph, with all the data points together, there is a clear upward trend in increasing temperature, becoming especially prominent around 1975.</p>
 <p>Now that we have the <code>interval</code> variable, we can create a density plot to study the distribution of monthly deviations (<code>delta</code>), grouped by the different time periods we are interested in.</p>
-<p>It is sometimes useful to group data into different time periods to study historical data. For example, we often refer to decades such as 1970s, 1980s, 1990s etc. to refer to a period of time. NASA calcuialtes a temperature anomaly, as difference form the base period of 1951-1980. The code below creates a new data frame called <code>comparison</code> that groups data in five time periods: 1881-1920, 1921-1950, 1951-1980, 1981-2010 and 2011-present.</p>
+<p>To simplify our analysis, we will look at data of decades now:</p>
 <pre class="r"><code>comparison &lt;- tidyweather %&gt;% 
   filter(Year&gt;= 1881) %&gt;%     #remove years prior to 1881
   #create new variable &#39;interval&#39;, and assign values based on criteria below:
@@ -62,7 +63,7 @@ ggplot(tidyweather, aes(x=date, y = delta))+
     Year %in% c(1981:2010) ~ &quot;1981-2010&quot;,
     TRUE ~ &quot;2011-present&quot;
   ))</code></pre>
-<p>Now that we have the <code>interval</code> variable, we can create a density plot to study the distribution of monthly deviations (<code>delta</code>), grouped by the different time periods we are interested in.</p>
+<p>We will create a density plot to study the distribution of monthly deviations (<code>delta</code>), grouped by the different time periods we are interested in:</p>
 <pre class="r"><code>ggplot(comparison, aes(x=delta, fill=interval))+
   geom_density(alpha=0.2) + #density plot with transparency set to 20%
   theme_bw() + #theme
@@ -72,7 +73,7 @@ ggplot(tidyweather, aes(x=date, y = delta))+
   )</code></pre>
 <p><img src="/blogs/climate_files/figure-html/density_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
 <p>This graph is a clear indicator that the change in temperature has been steadily increasing from the 1880s. This is seen through the movement of the curves to the right.</p>
-<p>So far, we have been working with monthly anomalies. However, we might be interested in average annual anomalies.</p>
+<p>So far, we have been working with monthly anomalies. However, we are also interested in average annual anomalies:</p>
 <pre class="r"><code>#creating yearly averages
 average_annual_anomaly &lt;- tidyweather %&gt;% 
   group_by(Year) %&gt;%   #grouping data by Year
@@ -97,13 +98,11 @@ ggplot(average_annual_anomaly, aes(x=Year, y= annual_average_delta))+
   )                         </code></pre>
 <p><img src="/blogs/climate_files/figure-html/averaging-1.png" width="648" style="display: block; margin: auto;" /></p>
 <p>The yearly averages above also provide convincing evidence to show the rise in temperatures across time.</p>
-<div id="confidence-interval-for-delta" class="section level2">
-<h2>Confidence Interval for <code>delta</code></h2>
 <p><a href="https://earthobservatory.nasa.gov/world-of-change/decadaltemp.php">NASA points out on their website</a> that</p>
 <blockquote>
 <p>A one-degree global change is significant because it takes a vast amount of heat to warm all the oceans, atmosphere, and land by that much. In the past, a one- to two-degree drop was all it took to plunge the Earth into the Little Ice Age.</p>
 </blockquote>
-<p>Your task is to construct a confidence interval for the average annual delta since 2011, both using a formula and using a bootstrap simulation with the <code>infer</code> package.</p>
+<p>We will construct a confidence interval for the average annual delta since 2011, both using a formula and using a bootstrap simulation:</p>
 <pre class="r"><code>#constructing a confidence interval utilizing a formula
 formula_ci &lt;- comparison %&gt;% 
   filter(interval ==&quot;2011-present&quot;) %&gt;% # choose the interval 2011-present
@@ -151,9 +150,5 @@ boot_weather %&gt;%
 ##   lower_ci upper_ci
 ##      &lt;dbl&gt;    &lt;dbl&gt;
 ## 1     1.01     1.11</code></pre>
-<blockquote>
-<p>What is the data showing us?</p>
-</blockquote>
 <p>In this problem, we created a 95% confidence interval for the average annual delta (change in temperature) from 2011 to the present. Two methods were utilized to construct the interval: formulas and a bootstrap simulation, which generated the same result. From analyzing this confidence interval, we are 95% positive that the interval from 1.02 to 1.11 captures the true mean value of the delta or change in temperature from 2011 to the present. Essentially, from 2011 to the current day, the change in temperature has been an increase of over 1 degree Celsius. This is extremely troubling because in the past a one degree drop was enough to put the earth into a Little Ice Age so just imagine what a one degree increase over just ten years has done to the planet!</p>
-</div>
 </div>

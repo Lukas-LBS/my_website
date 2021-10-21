@@ -24,5 +24,5 @@ This page is designed to showcase my groups a(R)twork. It was handselected and e
 * [`Climate Change`](https://lukas-lbs.netlify.app/blogs/climate/) - Examines how the climate has changed over recent years
 * [`Boris Bikes`](https://lukas-lbs.netlify.app/blogs/bike/) - Looks at how Boris Bikes are rented throughout the years
 * [`Gender pay analysis`](https://lukas-lbs.netlify.app/blogs/gender/) - Tries to understand if the pay gap is caused by gender or experience
-* [`Youth risk behavior`](https://lukas-lbs.netlify.app/blogs/youth/) - Looks at the kinds of risk that teens take and if this correlates with certain characeristics
+* [`Youth activity and weight`](https://lukas-lbs.netlify.app/blogs/youth/) - Looks at the how excercise is related to weight in students
 

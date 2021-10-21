@@ -14,6 +14,9 @@ title: Boris Bikes
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
+<div id="changes-in-boris-bike-rentals" class="section level1">
+<h1>Changes in boris bike rentals</h1>
+<p>We try to understand if and why rentals of santander cycles change. To do so, we first will load the data and create a plot that shows how actual rentals compare to average/ expected rentals:</p>
 <pre class="r"><code>url &lt;- &quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&quot;
 
 # Download TFL data to temporary file
@@ -36,12 +39,14 @@ bike &lt;- bike0 %&gt;%
   mutate (year = year(day),
           month = lubridate::month(day, label = TRUE),
           week = isoweek(day))</code></pre>
-<p>Look at May and Jun and compare 2020 with the previous years. What’s happening?</p>
 <p>In May and June, we see a flattening of the distribution curve. In the prior years for the months of May June, there is usually a relatively normal distribution of the graph, with a a bit of skew and some years where the distributions are bi- or tri-modal. In 2020, I believe we are seeing a widening of the distribution away from a concentrated mean amount of bike rentals. This is most likely because of the lockdown over the summer due to the pandemic. When lockdown restrictions were lifted, there would be high levels of bike rentals but going back into lockdown would cause these rentals to drop significantly, and hence “stretches” the distribution out as seen in the graph above.</p>
 <p><img src="/blogs/bike_files/figure-html/tfl_absolute_monthly_change-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>The graph we created shows the monthly changes in bike rentals for TfL. The expected rental variable we created came from monthly data for the entire year range from 2016-2019. The actual rental variable we created was the true average for each month of every year. We then created an excess rentals variable that was the difference between the actual and expected rentals; this is what is shown in the graph.The blue line is the the expected rentals per month, and is the same in each year. The differences from this expected value are displayed in red or green, depending on if the actual number of bike rentals was above or below this line.</p>
 <p>The second one looks at percentage changes from the expected level of weekly rentals.</p>
 <p><img src="/blogs/bike_files/figure-html/tfl_percent_change-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="interpretation" class="section level4">
+<h4>Interpretation</h4>
 <p>The graph we created shows the percent change from the weekly averages of TfL bike rentals. The expected rental variable we created came from weekly data for the entire year range from 2016-2019. The actual rental variable we created was the true average for each week of each month of every year. We then created an excess rentals variable that was the percent difference between the actual and expected rentals; this is what is shown in the graph.</p>
-<p>Should you use the mean or the median to calculate your expected rentals? Why?</p>
 <p>We used the mean to calculate the expected rentals. This is because we believed that the mean would provide a better representation of the data, and that when we compared our results to the actual photos of the original graphs, utilizing the mean provided a better match.</p>
+</div>
+</div>
