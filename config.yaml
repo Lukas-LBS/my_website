@@ -88,9 +88,9 @@ params:
         title: Gender pay analysis
         url: blogs/gender
       - image: janilson-furtado-unsplash.jpg
-        subtitle: Youth risk behavior
-        title: How do young people take risks?
-        url: blogs/ipsum
+        subtitle: How do young people take risks?
+        title: Youth risk behavior
+        url: blogs/youth
   two:
     buttonText: R-projects
     enable: yes
