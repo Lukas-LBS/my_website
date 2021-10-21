@@ -9,7 +9,7 @@ image: denise-jans-tV80374iytg-unsplash.jpg
 
 keywords: ""
 slug: movies
-title: Relationship of movie likes, budgets, and their returns
+title: Relationship of movie facebook likes, budgets, and their returns
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
@@ -17,8 +17,8 @@ title: Relationship of movie likes, budgets, and their returns
 
 <div id="movies" class="section level1">
 <h1>Movies</h1>
-<div id="relationship-between-the-number-of-facebook-likes-a-movie-received-and-its-revenues" class="section level2">
-<h2>Relationship between the number of Facebook likes a movie received and its revenues</h2>
+<div id="relationship-between-the-number-of-facebook-likes-a-movie-received-and-its-revenues" class="section level3">
+<h3>Relationship between the number of Facebook likes a movie received and its revenues</h3>
 <p>To examine this relationship, we first need to load the data through the command shown below:</p>
 <pre class="r"><code>movies &lt;- read_csv(here::here(&quot;data&quot;, &quot;movies.csv&quot;))
 glimpse(movies)</code></pre>
@@ -46,12 +46,34 @@ ggplot(movies, aes(x=cast_facebook_likes, y=gross)) + #assign x- and y-axis vari
        x=&quot;Cast Facebook Likes&quot;,
        y=&quot;Gross Revenue&quot;) </code></pre>
 <p><img src="/blogs/movies_files/figure-html/gross_on_fblikes-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>In addition, we also test for the correlation to understand if any relationship we can see in the scatter plot holds statistically.</p>
 <pre class="r"><code>#Test correlation of variables
 cor(x=movies$cast_facebook_likes, y=movies$gross)</code></pre>
 <pre><code>## [1] 0.213</code></pre>
-<div id="interpretation" class="section level3">
-<h3>Interpretation</h3>
-<p>The graphs above show the possible relationships between CPI and the 10 year Treasury yield. The graphs from the original source are all on the same scale and use different numbers on the axis, while our graphs utilize the same scale on both axis. This is allows us to better understand the relationships and trends occurring from the 1980s to the 2020s more clearly. For example, in the 1980s, the 10 year Treasury rate was much higher, and there was a corresponding higher CPI yearly change. Looking at the present day where the 10 year Treasury rate is extremely low, we can easily see the corresponding lower CPI yearly change through our graphs. In the 1980s, the spread of yearly CPI change was the greatest from 0.02 to 0.12. This is most likely due to the varying economic policies of presidents during the decade. Carter’s administration saw very high levels of inflation and when Reagan came into office, he worked to try and implement policy hat would unwind this. Volcker, as chairman of the Fed, worked with the rest of the board to reduce inflation from its peak of 13.5% to almost 3% by 1983.</p>
+<div id="interpretation" class="section level4">
+<h4>Interpretation</h4>
+<p>The number of facebook likes that a cast receives is not likely to be a good predictor of how much money a movie will make at the box office, as seen through the lack of correlation in the graph and the correlation test. Since we were testing if gross revenue is <em>dependent</em> on the number of facebook likes, gross revenue became the dependent variable (y-axis) and facebook likes became the independent variable (x-axis).</p>
+</div>
+</div>
+<div id="relationship-between-a-movies-budget-and-its-revenues" class="section level3">
+<h3>Relationship between a movie’s budget and its revenues</h3>
+<p>The next interesting relationship to understand is whether movies with higher budgets make more money. To test for this we will again create a scatterplot:</p>
+<pre class="r"><code>#Create scatterplot
+ggplot(movies, aes(x=budget, y=gross)) + #assign x- and y-axis variables
+  geom_point() +
+  geom_smooth(method=&quot;lm&quot;) +
+  scale_y_log10()+
+  scale_x_log10() + #scale axis to make graph readable
+  labs(title = &quot;Gross Revenue of Movie vs Movie Budget&quot;,
+       x=&quot;Movie Budget&quot;,
+       y=&quot;Gross Revenue&quot;) </code></pre>
+<p><img src="/blogs/movies_files/figure-html/gross_on_budget-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#Test correlation of variables
+cor(x=movies$budget, y=movies$gross)</code></pre>
+<pre><code>## [1] 0.641</code></pre>
+<div id="interpretation-1" class="section level4">
+<h4>Interpretation</h4>
+<p>Through the scatterplot we can assume that the budget can be a good predictor of how much money the movie will make. This makes sense since movies with bigger budgets tend to have more popular casts, better quality production, and more marketing campaigns.</p>
 </div>
 </div>
 </div>

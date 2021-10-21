@@ -81,7 +81,7 @@ params:
         url: blogs/magna
       - image: denise-jans-tV80374iytg-unsplash.jpg
         subtitle: Nisl Sed Aliquam
-        title: Relationship of movie likes, budgets, and their returns
+        title: Relationship of movie facebook likes, budgets, and their returns
         url: blogs/movies
 #      - image: pic05.jpg
 #        subtitle: Ipsum Dolor Sit Amet
