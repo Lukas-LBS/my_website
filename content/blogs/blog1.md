@@ -7,7 +7,7 @@ description: ""
 draft: false
 image: pic10.jpg
 keywords: ""
-slug: ipsum
+slug: p1
 title: Project 1: Investment Fundamentals and Data Analys
 ---
 

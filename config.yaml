@@ -80,10 +80,10 @@ params:
         subtitle: Lorem Etiam Nullam
         title: Magna
         url: blogs/magna
-      - image: pic04.jpg
+      - image: pic10.jpg
         subtitle: Nisl Sed Aliquam
-        title: Project 1: Investment Fundamentals and Data Analytics
-        url: blogs/ipsum
+        title: Investment Fundamentals and Data Analytics
+        url: blogs/p1
 #      - image: pic05.jpg
 #        subtitle: Ipsum Dolor Sit Amet
 #        title: Consequat
