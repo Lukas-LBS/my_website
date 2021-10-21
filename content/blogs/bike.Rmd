@@ -1,0 +1,151 @@
+---
+categories:
+- ""
+- ""
+date: "2017-10-31T22:26:09-05:00"
+description: ""
+draft: false
+image: mmmmmm.jpg
+keywords: ""
+slug: bike
+title: Boris Bikes
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(infer)
+```
+
+```{r, get_tfl_data, cache=TRUE}
+url <- "https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx"
+
+# Download TFL data to temporary file
+httr::GET(url, write_disk(bike.temp <- tempfile(fileext = ".xlsx")))
+
+# Use read_excel to read it as dataframe
+bike0 <- read_excel(bike.temp,
+                   sheet = "Data",
+                   range = cell_cols("A:B"))
+
+# change dates to get year, month, and week
+bike <- bike0 %>% 
+  clean_names() %>% 
+  rename (bikes_hired = number_of_bicycle_hires) %>% 
+  mutate (year = year(day),
+          month = lubridate::month(day, label = TRUE),
+          week = isoweek(day))
+```
+
+Look at May and Jun and compare 2020 with the previous years. What's happening?
+
+In May and June, we see a flattening of the distribution curve. In the prior years for the months of May June, there is usually a relatively normal distribution of the graph, with a a bit of skew and some years where the distributions are bi- or tri-modal. In 2020, I believe we are seeing a widening of the distribution away from a concentrated mean amount of bike rentals. This is most likely because of the lockdown over the summer due to the pandemic. When lockdown restrictions were lifted, there would be high levels of bike rentals but going back into lockdown would cause these rentals to drop significantly, and hence "stretches" the distribution out as seen in the graph above. 
+
+```{r tfl_absolute_monthly_change, echo=FALSE, out.width="100%"}
+
+#create data.frame that contains the actual monthly average for each of the 6 years
+actual_data_bike <- bike %>% 
+  filter(year > 2015) %>% 
+  group_by(month, year) %>% 
+  summarise(actual_rental = mean(bikes_hired)) #create actual rental variable
+
+#create data.frame that contains the monthly average over the 6 years  
+total_data_bike <- bike %>% 
+  filter(year > 2015) %>% 
+  group_by(month) %>% 
+  summarise(expected_rental = mean(bikes_hired))#create expected rental variable
+
+#create final data.frame that contains both the actual and expected variables  
+final_bike <- left_join(actual_data_bike,total_data_bike) %>% 
+    mutate(excess_rentals = actual_rental - expected_rental, #create excess rental variable
+           up = ifelse(actual_rental>expected_rental, excess_rentals, 0),
+           down = ifelse(actual_rental<expected_rental, excess_rentals, 0))
+
+#replicate graph from picture  
+ggplot(final_bike, aes(x=month, y=actual_rental, group=year)) + #add in month and actual renal variables, then group by year
+  geom_line()+
+  geom_line(aes(y = actual_rental)) + #add in actual rental line graph
+  geom_line(aes(y = expected_rental), color = "blue", size = 1) + #add in expected rental line graph and color blue
+  facet_wrap(~year, nrow = 2) + #group the graphs by year and specify 2 rows for output
+  theme_minimal() +
+    geom_ribbon(aes(ymin=expected_rental, ymax=expected_rental+down), fill="#CB454A", alpha=0.4) + #fill in graph red for when actual was lower than expected
+    geom_ribbon(aes(ymin=expected_rental+up, ymax=expected_rental), fill="#7DCD85", alpha=0.4) + #fill in graph green for when actual was higher than expected
+  labs(title="Monthly changes in TfL bike rentals", 
+       subtitle="Change from monthly average shown in blue\nand calculated between 2016-2019",
+       x="", y="Bike rentals",
+       caption = "Source:TfL, London Data Store") #add in titles and axis labels
+  
+```
+
+The graph we created shows the monthly changes in bike rentals for TfL. The expected rental variable we created came from monthly data for the entire year range from 2016-2019. The actual rental variable we created was the true average for each month of every year. We then created an excess rentals variable that was the difference between the actual and expected rentals; this is what is shown in the graph.The blue line is the the expected rentals per month, and is the same in each year. The differences from this expected value are displayed in red or green, depending on if the actual number of bike rentals was above or below this line.
+
+The second one looks at percentage changes from the expected level of weekly rentals. 
+
+```{r tfl_percent_change, echo=FALSE, out.width="100%"}
+
+#create data.frame that contains the actual monthly average for each of the 6 years
+actual_data_bike_weekly <- bike %>% 
+  filter(year > 2015 & week < 53) %>% #filter for after year 2015 and before week 53 (which skews data if used)
+  group_by(week, month, year) %>% 
+  summarise(actual_rental_weekly = mean(bikes_hired)) #create actual rental variable
+
+#create data.frame that contains the monthly average over the 6 years  
+  total_data_bike_weekly <- bike %>% 
+  filter(year > 2015 & week < 53) %>% 
+  group_by(week) %>% 
+  summarise(expected_rental_weekly = mean(bikes_hired)) #create expected rental variable
+
+#joining the data.frames  
+ final_bike_weekly <- left_join(actual_data_bike_weekly,total_data_bike_weekly) %>% 
+    mutate(excess_rentals_weekly = (actual_rental_weekly - expected_rental_weekly)/(expected_rental_weekly), #create the excess rentals percentage
+    up=ifelse(actual_rental_weekly>expected_rental_weekly, excess_rentals_weekly,0),
+    down=ifelse(actual_rental_weekly<expected_rental_weekly, excess_rentals_weekly, 0))
+
+#replicate graph provided
+ggplot(final_bike_weekly, aes(x=week, y=excess_rentals_weekly, group=year)) +
+  geom_rect(data=NULL,aes(xmin=14,xmax=26,ymin=-Inf,ymax=Inf),
+                    fill="#E5E4E2") +
+  geom_rect(data=NULL,aes(xmin=40,xmax=52,ymin=-Inf,ymax=Inf),
+                    fill="#E5E4E2") + #add background colors to differentiate between quarters
+  geom_line() +
+  facet_wrap(~year, nrow = 2) + #group by year and specify two rows for the output
+  scale_y_continuous(labels = function(x) paste0(x*100, "%")) + #make y-axis utilize percentages
+  geom_rug(aes(colour=ifelse(actual_rental_weekly>=expected_rental_weekly, ">=0", "<0")), sides="b") +
+  scale_colour_manual(values=c("#CB454A", "#7DCD85"), name="Actual vs Expected", guide=FALSE) + #add and color the ticks on the bottom of the x-axis
+  geom_ribbon(aes(ymin=0+up, ymax=excess_rentals_weekly), fill="#CB454A", alpha=0.4) + #fill in for negative percent changes
+  geom_ribbon(aes(ymin=excess_rentals_weekly, ymax=0+down), fill="#7DCD85", alpha=0.4) + #fill in for positive percent changes
+  theme_minimal() + 
+  labs(title="Weekly changes in TfL bike rentals", subtitle="% change from weekly averages \ncalculated beteen 2016-2019", x="week", y="", caption="Source: TfL, London Data Store")
+
+```
+
+The graph we created shows the percent change from the weekly averages of TfL bike rentals. The expected rental variable we created came from weekly data for the entire year range from 2016-2019. The actual rental variable we created was the true average for each week of each month of every year. We then created an excess rentals variable that was the percent difference between the actual and expected rentals; this is what is shown in the graph.
+
+Should you use the mean or the median to calculate your expected rentals? Why?
+
+We used the mean to calculate the expected rentals. This is because we believed that the mean would provide a better representation of the data, and that when we compared our results to the actual photos of the original graphs, utilizing the mean provided a better match.

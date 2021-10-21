@@ -83,10 +83,10 @@ params:
         subtitle: How are movie returns achieved?
         title: Movies, cast facebook likes, budgets, and returns
         url: blogs/movies
-      - image: pic05.jpg
-        subtitle: Ipsum Dolor Sit Amet
-        title: hike
-        url: blogs/hike
+      - image: jp-valery-unsplash.jpg
+        subtitle: How does gender and experience play into pay?
+        title: Gender pay analysis
+        url: blogs/gender
       - image: pic06.jpg
         subtitle: Feugiat Amet Tempus
         title: Etiam
