@@ -20,7 +20,7 @@ Hi, I am Lukas from Munich in Germany [`Munich in Germany`](https://www.google.c
 ### This blog
 
 This page is designed to showcase my groups a(R)twork. It was handselected and encompasses the following topics:
-* [`Investment Fundamentals`](https://lukas-lbs.netlify.app/blogs/if) - Mashup between my two favorite courses: Data Analytics and Investment Fundamentals
+* [`Investment Fundamentals`](https://lukas-lbs.netlify.app/blogs/movies/) - Showcases the relationship of movie likes, budgets, and their returns
 * sdf
 * sdf
 
