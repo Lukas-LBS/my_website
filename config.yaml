@@ -71,10 +71,10 @@ params:
         subtitle: Short introduction about this blog and its owner
         title: About me
         url: blogs/aboutme
-      - image: pic02.jpg
+      - image: melissa-bradley-iwiAxOuJw-unsplash.jpg
         subtitle: Feugiat Amet Tempus
         title: Tempus
-        url: blogs/tempus
+        url: blogs/climate
       - image: pic03.jpg
         subtitle: Lorem Etiam Nullam
         title: Magna

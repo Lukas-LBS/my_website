@@ -1,0 +1,229 @@
+
+---
+categories:  
+- ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
+- ""
+date: "2021-09-30"
+description: ""
+draft: false
+image: melissa-bradley-iwiAxOuJw-unsplash.jpg
+
+keywords: ""
+slug: climate
+title: Climate Change
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(infer)
+```
+
+# Temperature change
+
+```{r weather_data, cache=TRUE}
+
+weather <- 
+  read_csv("https://data.giss.nasa.gov/gistemp/tabledata_v4/NH.Ts+dSST.csv", 
+           skip = 1, 
+           na = "***")
+
+```
+
+```{r tidyweather}
+
+#select the year and the twelve month variables from dataset
+tidyweather <- select(weather, "Year", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec") %>% 
+  pivot_longer(cols = 2:13, #select the monthly columns and convert the data frame from 'wide' to 'long' format
+               names_to = "month", #name the new column "month"
+               values_to = "delta") #name the new values under "delta"
+
+glimpse(tidyweather)
+
+```
+
+```{r scatter_plot}
+
+#create new variable
+tidyweather <- tidyweather %>%
+  mutate(date = ymd(paste(as.character(Year), month, "1")),
+         month = month(date, label=TRUE),
+         year = year(date))
+#create time-series scatterplot
+ggplot(tidyweather, aes(x=date, y = delta))+
+  geom_point()+
+  geom_smooth(color="red") + #add trendline
+  theme_bw() +
+  labs (
+    title = "Weather Anomalies"
+  )
+
+```
+
+```{r facet_wrap, echo=FALSE}
+
+#create scatterplots per month
+ggplot(tidyweather, aes(x=date, y = delta))+
+  geom_point()+
+  geom_smooth(color="red") + #add trendline
+  theme_bw() +
+  labs (
+    title = "Weather Anomalies"
+  ) +
+  facet_wrap(~month) #group by month
+
+```
+
+Is the effect of increasing temperature more pronounced in some months? 
+
+In December-March, the data sets are a bit more spread out and in the more recent years there appears to be a more pronounced and steep upward trend in the temperature. However, this upward trend is seen in all the months to some extent. More critical to observe, is the increase over the years where it can be observed that the increase in temperature is beginning to take on an exponential upward curve - scary! In the the prior graph, with all the data points together, there is a clear upward trend in increasing temperature, becoming especially prominent around 1975.
+
+Now that we have the `interval` variable, we can create a density plot to study the distribution of monthly deviations (`delta`), grouped by the different time periods we are interested in.
+
+It is sometimes useful to group data into different time periods to study historical data. For example, we often refer to decades such as 1970s, 1980s, 1990s etc. to refer to a period of time. NASA calcuialtes a temperature anomaly, as difference form the base period of 1951-1980. The code below creates a new data frame called `comparison` that groups data in five time periods: 1881-1920, 1921-1950, 1951-1980, 1981-2010 and 2011-present.
+
+```{r intervals}
+
+comparison <- tidyweather %>% 
+  filter(Year>= 1881) %>%     #remove years prior to 1881
+  #create new variable 'interval', and assign values based on criteria below:
+  mutate(interval = case_when(
+    Year %in% c(1881:1920) ~ "1881-1920",
+    Year %in% c(1921:1950) ~ "1921-1950",
+    Year %in% c(1951:1980) ~ "1951-1980",
+    Year %in% c(1981:2010) ~ "1981-2010",
+    TRUE ~ "2011-present"
+  ))
+
+```
+
+Now that we have the `interval` variable, we can create a density plot to study the distribution of monthly deviations (`delta`), grouped by the different time periods we are interested in. 
+
+```{r density_plot}
+
+ggplot(comparison, aes(x=delta, fill=interval))+
+  geom_density(alpha=0.2) + #density plot with transparency set to 20%
+  theme_bw() + #theme
+  labs (
+    title = "Density Plot for Monthly Temperature Anomalies",
+    y     = "Density"         #changing y-axis label to sentence case
+  )
+
+```
+
+This graph is a clear indicator that the change in temperature has been steadily increasing from the 1880s. This is seen through the movement of the curves to the right.
+
+
+So far, we have been working with monthly anomalies. However, we might be interested in average annual anomalies. 
+
+```{r averaging}
+
+#creating yearly averages
+average_annual_anomaly <- tidyweather %>% 
+  group_by(Year) %>%   #grouping data by Year
+  
+  # creating summaries for mean delta 
+  # use `na.rm=TRUE` to eliminate NA (not available) values 
+  summarise(na.rm = TRUE, 
+            annual_average_delta = mean(delta)) 
+
+#plotting the data:
+ggplot(average_annual_anomaly, aes(x=Year, y= annual_average_delta))+
+  geom_point()+
+  
+  #Fit the best fit line, using LOESS method
+  geom_smooth() +
+  
+  #change to theme_bw() to have white background + black frame around plot
+  theme_bw() +
+  labs (
+    title = "Average Yearly Anomaly",
+    y     = "Average Annual Delta"
+  )                         
+
+```
+
+The yearly averages above also provide convincing evidence to show the rise in temperatures across time.
+
+## Confidence Interval for `delta`
+
+[NASA points out on their website](https://earthobservatory.nasa.gov/world-of-change/decadaltemp.php) that 
+
+> A one-degree global change is significant because it takes a vast amount of heat to warm all the oceans, atmosphere, and land by that much. In the past, a one- to two-degree drop was all it took to plunge the Earth into the Little Ice Age.
+
+Your task is to construct a confidence interval for the average annual delta since 2011, both using a formula and using a bootstrap simulation with the `infer` package. 
+
+```{r, calculate_CI_using_formula}
+
+#constructing a confidence interval utilizing a formula
+formula_ci <- comparison %>% 
+  filter(interval =="2011-present") %>% # choose the interval 2011-present
+  summarise( # calculate summary statistics for temperature deviation (delta)
+    min_delta = min(delta, na.rm=TRUE),
+    q25_delta = quantile(delta, 0.25, na.rm=TRUE),
+    median_delta = median(delta, na.rm=TRUE),
+    q75_delta = quantile(delta, 0.75, na.rm=TRUE),
+    max_delta = max(delta, na.rm=TRUE),
+    mean_delta = mean(delta, na.rm=TRUE),
+    sd_delta = sd(delta, na.rm=TRUE),
+    count=n(),
+    t_critical = qt(0.95, count-1),
+    se_delta = sd_delta/sqrt(count),
+    margin_of_error = t_critical*se_delta,
+    lower= mean_delta-margin_of_error,
+    higher=mean_delta+margin_of_error)
+    #calculate upper end of CI
+   # calculate mean, SD, count, SE, lower/upper 95% CI
+                      
+#print formula_ci
+formula_ci
+```
+
+
+```{r, calculate_CI_using_bootstrap}
+set.seed(1234)
+
+boot_weather <- comparison %>% 
+  #select interval 2011-present
+  filter(interval == "2011-present") %>% 
+  #Specify the variable of interest
+  specify(response = delta) %>% 
+  #Generate a bunch of bootstrap samples
+  generate(reps = 1000, type = "bootstrap") %>% 
+  #Construct 95% CI
+  calculate(stat = "mean")
+
+#Run CI
+boot_weather %>% 
+  get_confidence_interval(level=0.95, type = "percentile")
+
+```
+
+> What is the data showing us? 
+
+In this problem, we created a 95% confidence interval for the average annual delta (change in temperature) from 2011 to the present. Two methods were utilized to construct the interval: formulas and a bootstrap simulation, which generated the same result. From analyzing this confidence interval, we are 95% positive that the interval from 1.02 to 1.11 captures the true mean value of the delta or change in temperature from 2011 to the present. Essentially, from 2011 to the current day, the change in temperature has been an increase of over 1 degree Celsius. This is extremely troubling because in the past a one degree drop was enough to put the earth into a Little Ice Age so just imagine what a one degree increase over just ten years has done to the planet!
